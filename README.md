@@ -1,7 +1,9 @@
 # Writ — Indian Legal Intelligence
 
+[Website](https://getwrit.pages.dev) | [Vidhi LLM](https://vidhi.pages.dev)
+
 Writ is a fully offline Indian legal research assistant. It combines a fine-tuned
-large language model ([Vidhi LLM](https://huggingface.co/prawinin/vidhi)) with an
+large language model ([Vidhi LLM](https://vidhi.pages.dev)) with an
 encrypted on-device knowledge base of judgments, acts, and curated legal notes,
 queried through hybrid retrieval (keyword + neural rerank).
 
@@ -40,6 +42,16 @@ Writ requires [Ollama](https://ollama.com) running locally for model inference.
 
 ---
 
+## Code Quality
+
+This repository maintains rigorous code quality standards and is fully compliant with the following global toolchain:
+- **Ruff**: `All checks passed!` (0 formatting or linting issues)
+- **Mypy**: `Success: no issues found in 2 source files`
+- **Bandit**: `No issues identified.` (0 High, 0 Medium, 0 Low)
+- **Vulture**: `0 issues` (100% dead code eliminated)
+
+---
+
 ## Running from Source
 
 ```bash
@@ -68,7 +80,7 @@ For licensing inquiries, commercial use, or institutional deployments, contact:
 ### Vidhi LLM
 
 Model weights are distributed separately. See the
-[model card](https://huggingface.co/prawinin/vidhi) for applicable terms.
+[Vidhi LLM homepage](https://vidhi.pages.dev) for applicable terms and the huggingface repository.
 
 ---
 

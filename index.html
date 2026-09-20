@@ -2770,16 +2770,6 @@ document.addEventListener('click', e => {
     checkOllamaStatus();
   });
 
-  window.update_pull_progress = function(completed, total) {
-    const container = document.getElementById('pullProgressContainer');
-    const bar = document.getElementById('pullProgressBar');
-    if (container && bar && total > 0) {
-      container.style.display = 'block';
-      const percent = Math.min(100, Math.max(0, (completed / total) * 100));
-      bar.style.width = percent + '%';
-    }
-  };
-
   function checkOllamaStatus() {
     window.pywebview.api.check_ollama().then(status => {
       if (!status.ollama_running) {
