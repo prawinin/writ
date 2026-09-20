@@ -86,6 +86,6 @@ Model weights are distributed separately. See the
 
 ## Disclaimer
 
-Writ provides research assistance only and does not constitute legal advice.
-Always verify citations and analysis with qualified legal counsel before relying
-on them for any legal matter.
+Writ is provided as a proof-of-concept and does not constitute legal advice. While it demonstrates the capability of local AI models for legal research and works very well, you should always consult qualified legal counsel for any legal matters. We do not claim that this tool can replace professional lawyers.
+
+The infrastructure and framework for this project are fully functional and ready. If you want this properly scaled for production or institutional deployment, [Contact for scaling](mailto:prawin@vyapai.tech).
