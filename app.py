@@ -40,7 +40,7 @@ DEV_KEY = "writ_dev_only_change_for_release"
 
 OLLAMA_URL = os.environ.get("WRIT_OLLAMA_URL", "http://localhost:11434/api/generate")
 OLLAMA_TAGS_URL = OLLAMA_URL.replace("/api/generate", "/api/tags")
-OLLAMA_MODEL = "hf.co/prawinin/vidhi"
+OLLAMA_MODEL = "prawinin/vidhi"
 
 
 def _num_gpu():

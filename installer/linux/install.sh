@@ -64,7 +64,13 @@ Categories=Office;
 EOF
 
 echo ""
-echo "Note: To use the AI features, make sure Ollama is installed and the model is downloaded."
-echo "Run: ollama pull hf.co/prawinin/vidhi"
+if command -v ollama >/dev/null 2>&1; then
+  echo "Ollama is installed. Downloading Vidhi LLM (~2GB)..."
+  ollama pull prawinin/vidhi
+  echo "Model download complete."
+else
+  echo "Ollama is not installed. To use the AI features, make sure Ollama is installed and the model is downloaded."
+  echo "Run: ollama pull prawinin/vidhi"
+fi
 
 echo "Done. Launch with: ${PREFIX}/bin/writ  (ensure ${PREFIX}/bin is on PATH)"

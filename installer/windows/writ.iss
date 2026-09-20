@@ -9,8 +9,8 @@
 ;   1. installs Writ.exe + index.html next to it (PyInstaller onedir),
 ;   2. installs writ_data.dat (encrypted, obfuscated name) to {commonappdata}\Writ,
 ;   3. installs Ollama silently if missing, starts it,
-;   4. expects hf.co/prawinin/vidhi (~2 GB) to be pulled manually by the user
-;      by running `ollama run hf.co/prawinin/vidhi` in their terminal.
+;   4. expects prawinin/vidhi (~2 GB) to be pulled manually by the user
+;      by running `ollama run prawinin/vidhi` in their terminal.
 ; OPTIONAL post-install: python scripts/setup_reranker.py (~23 MB neural
 ; rerank model into models\minilm) — needs onnxruntime+tokenizers for Python.
 
@@ -55,18 +55,58 @@ Name: "{autodesktop}\Writ"; Filename: "{app}\Writ.exe"; Tasks: desktopicon
 var
   DownloadPage: TDownloadWizardPage;
   OptionsPage: TInputOptionWizardPage;
+  OllamaFailPage: TWizardPage;
+
+procedure BtnOllamaClick(Sender: TObject);
+var
+  ErrorCode: Integer;
+begin
+  ShellExec('open', 'https://ollama.com/prawinin/vidhi', '', '', SW_SHOW, ewNoWait, ErrorCode);
+end;
+
+procedure BtnHFClick(Sender: TObject);
+var
+  ErrorCode: Integer;
+begin
+  ShellExec('open', 'https://huggingface.co/prawinin/vidhi', '', '', SW_SHOW, ewNoWait, ErrorCode);
+end;
 
 procedure InitializeWizard;
+var
+  LblDesc: TLabel;
+  BtnOllama, BtnHF: TNewButton;
 begin
   OptionsPage := CreateInputOptionPage(wpSelectTasks,
     'Additional Downloads', 'Select optional components to download',
-    'Would you like to download the offline knowledge base? This is required for the full experience.' + #13#10 + #13#10 + 'Note: You will need to install Ollama and run `ollama run hf.co/prawinin/vidhi` in your terminal to download the Vidhi LLM (~2GB).',
+    'Would you like to download the offline knowledge base? This is required for the full experience.' + #13#10 + #13#10 + 'Note: The installer will also attempt to automatically download the Vidhi LLM (~2GB) via Ollama.',
     False, False);
   
   OptionsPage.Add('Download Writ Knowledge Base (~1.6 GB)');
   OptionsPage.Values[0] := True;
 
   DownloadPage := CreateDownloadPage(SetupMessage(msgWizardPreparing), SetupMessage(msgPreparingDesc), nil);
+
+  OllamaFailPage := CreateCustomPage(wpInstalling, 'Model Download Check', 'Verifying Vidhi LLM model installation.');
+  LblDesc := TLabel.Create(OllamaFailPage);
+  LblDesc.Parent := OllamaFailPage.Surface;
+  LblDesc.WordWrap := True;
+  LblDesc.Caption := 'The setup attempted to download the Vidhi LLM automatically via Ollama. If the terminal download failed or was skipped, you can manually download the model using the links below, or by running `ollama pull prawinin/vidhi` in your terminal.';
+  LblDesc.Width := OllamaFailPage.SurfaceWidth;
+  LblDesc.Height := 80;
+
+  BtnOllama := TNewButton.Create(OllamaFailPage);
+  BtnOllama.Parent := OllamaFailPage.Surface;
+  BtnOllama.Top := 100;
+  BtnOllama.Width := 200;
+  BtnOllama.Caption := 'View on Ollama Registry';
+  BtnOllama.OnClick := @BtnOllamaClick;
+
+  BtnHF := TNewButton.Create(OllamaFailPage);
+  BtnHF.Parent := OllamaFailPage.Surface;
+  BtnHF.Top := 140;
+  BtnHF.Width := 200;
+  BtnHF.Caption := 'View on HuggingFace';
+  BtnHF.OnClick := @BtnHFClick;
 end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
@@ -122,4 +162,5 @@ Name: "{commonappdata}\Writ"; Permissions: everyone-modify
 
 
 [Run]
+Filename: "cmd.exe"; Parameters: "/c ollama pull prawinin/vidhi"; Description: "Download the Vidhi LLM via Ollama (~2GB)"; Flags: waituntilterminated
 Filename: "{app}\Writ.exe"; Description: "Launch Writ"; Flags: nowait postinstall skipifsilent

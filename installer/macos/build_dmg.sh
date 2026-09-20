@@ -54,9 +54,15 @@ fi
 echo "Copying Writ.app to /Applications..."
 cp -R "$(dirname "$0")/Writ.app" "/Applications/"
 echo "Installation complete! You can now launch Writ from Applications."
-echo ""
-echo "Note: To use the AI features, make sure Ollama is installed and the model is downloaded."
-echo "Run: ollama pull hf.co/prawinin/vidhi"
+echo "Checking for Ollama..."
+if command -v ollama >/dev/null 2>&1; then
+    echo "Ollama is installed. Downloading Vidhi LLM (~2GB)..."
+    ollama pull prawinin/vidhi
+    echo "Model download complete."
+else
+    echo "Ollama is not installed. To use the AI features, make sure Ollama is installed and the model is downloaded."
+    echo "Run: ollama pull prawinin/vidhi"
+fi
 EOF
 chmod +x "$STAGE/Install Writ.command"
 
