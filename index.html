@@ -2792,9 +2792,14 @@ document.addEventListener('click', e => {
       }
       
       if (!status.model_installed) {
-        title.textContent = 'Downloading Vidhi LLM';
-        desc.textContent = 'This model is ~2.5GB and runs entirely on your machine. This may take a few minutes depending on your internet connection.';
-        window.pywebview.api.pull_model();
+        title.textContent = 'Model Required';
+        desc.innerHTML = `
+          <p style="margin-bottom: 12px; color: var(--text-secondary);">Writ requires the Vidhi LLM to function. Please open your terminal or command prompt and run the following command:</p>
+          <div style="background: var(--bg-secondary); padding: 12px; border-radius: 8px; font-family: monospace; user-select: all; cursor: pointer; border: 1px solid var(--border); color: var(--text-primary); margin-bottom: 12px;" onclick="navigator.clipboard.writeText('ollama run hf.co/prawinin/vidhi').then(()=>alert('Copied to clipboard!'))">
+            ollama run hf.co/prawinin/vidhi
+          </div>
+          <p style="font-size: 13px; color: var(--text-tertiary);">This will download the ~2GB model. Writ is waiting for the model to be available...</p>
+        `;
         
         // Poll until model is installed
         const poll = setInterval(() => {
@@ -2804,7 +2809,7 @@ document.addEventListener('click', e => {
               finishSetup();
             }
           });
-        }, 5000);
+        }, 3000);
       } else {
         finishSetup();
       }

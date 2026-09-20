@@ -9,9 +9,8 @@
 ;   1. installs Writ.exe + index.html next to it (PyInstaller onedir),
 ;   2. installs writ_data.dat (encrypted, obfuscated name) to {commonappdata}\Writ,
 ;   3. installs Ollama silently if missing, starts it,
-;   4. pulls hf.co/prawinin/vidhi (~2 GB) if not already present — if the model
-;      already exists (checked via `ollama list`), the download is skipped and
-;      its existing location (OLLAMA_MODELS or %USERPROFILE%\.ollama\models) is kept.
+;   4. expects hf.co/prawinin/vidhi (~2 GB) to be pulled manually by the user
+;      by running `ollama run hf.co/prawinin/vidhi` in their terminal.
 ; OPTIONAL post-install: python scripts/setup_reranker.py (~23 MB neural
 ; rerank model into models\minilm) — needs onnxruntime+tokenizers for Python.
 
@@ -61,7 +60,7 @@ procedure InitializeWizard;
 begin
   OptionsPage := CreateInputOptionPage(wpSelectTasks,
     'Additional Downloads', 'Select optional components to download',
-    'Would you like to download the offline knowledge base? This is required for the full experience.' + #13#10 + #13#10 + 'Note: The Vidhi LLM (~2GB) will be downloaded via Ollama automatically on first run if not already present. Please install Ollama from ollama.com if you haven''t already.',
+    'Would you like to download the offline knowledge base? This is required for the full experience.' + #13#10 + #13#10 + 'Note: You will need to install Ollama and run `ollama run hf.co/prawinin/vidhi` in your terminal to download the Vidhi LLM (~2GB).',
     False, False);
   
   OptionsPage.Add('Download Writ Knowledge Base (~1.6 GB)');
